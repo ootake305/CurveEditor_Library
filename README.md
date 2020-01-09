@@ -1,0 +1,2 @@
+# CurveEditor_Library
+CurveEditorのLibrary開発用リポジトリです
