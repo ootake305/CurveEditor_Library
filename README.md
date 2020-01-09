@@ -1,4 +1,4 @@
 # CurveEditor_Library
-CurveEditorのLibrary開発用リポジトリです
+CurveEditorのLibrary開発用リポジトリです　
 
 CurveEditorのリポジトリURL https://github.com/ootake305/CurveEditor
