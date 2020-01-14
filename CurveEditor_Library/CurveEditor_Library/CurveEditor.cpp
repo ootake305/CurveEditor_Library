@@ -1,11 +1,23 @@
 #include "stdafx.h"
 #include "CurveEditor.h"
 #include <fstream>
-#include <sstream>
-#include <iostream>
+#include <cmath>
 #include <Windows.h>
+//#include <iostream>
+//#include <sstream>
 namespace CurveEditor
 {
+
+	/* 小数点n以下で四捨五入する */
+	double round_n(double number, double n)
+	{
+		double num = pow(10.0, n - 1);
+		number = number *num; //四捨五入したい値を10の(n-1)乗倍する。
+		number = round(number); //小数点以下を四捨五入する。
+		number /= num; //10の(n-1)乗で割る。
+		return number;
+	}
+
 	BezierPointList::BezierPointList()
 		:Ax(0),
 		Ay(0),
@@ -37,26 +49,30 @@ namespace CurveEditor
 
 		if (isOpen)
 		{
+			//一行読み込みテスト
+		//	std::getline(ifs, value);
+		//	if (value != "/n") values.push_back(value);
 			//全データを読み込む
 			while (std::getline(ifs, value, ','))
 			{
-				values.push_back(value);
+				if(value != "/n") values.push_back(value);
 			}
 			//データを保存
 			StringToBezierPoint(values);
 
+			ifs.close();
 			if (!DateErrorCheck())
 			{
-#ifdef DEBUG
-				OutputDebugStringA("CSVのデータがおかしいよ！");
+#ifdef _DEBUG
+			OutputDebugStringA("CurveEditoreError[000][CSVのデータがおかしいよ！] \n");
 #endif // DEBUG
 				return false;
 			}
 		}
 		else
 		{
-#ifdef DEBUG
-			OutputDebugStringA("ファイルを開けてないよ！");
+#ifdef _DEBUG
+			OutputDebugStringA("CurveEditoreError[001][ファイルを開けてないよ！] \n");
 #endif // DEBUG
 		}
 

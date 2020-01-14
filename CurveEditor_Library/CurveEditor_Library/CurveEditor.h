@@ -19,10 +19,10 @@ namespace CurveEditor
 			 {
 
 			 }
-			 Vec2(double x, double y)
+			 Vec2(double x1, double y2)
 			 {
-				 x = x;
-				 y = y;
+				 x = x1;
+				 y = y2;
 			 }
 		 };
 		 //3次ベジェ曲線に必要な点
@@ -39,7 +39,10 @@ namespace CurveEditor
 			 }
 			 BezierPoint(Vec2 s, Vec2 c1, Vec2 c2, Vec2 e)
 			 {
-
+				 startPoint = s;
+				 controlPoint1 = c1;
+				 controlPoint2 = c2;
+				 endPoint = e;
 			 }
 		 };
 	 public:
