@@ -1,8 +1,6 @@
 #pragma once
 
 #include<vector>
-#include <string>
-
 
 namespace CurveEditor
 {
@@ -62,6 +60,9 @@ namespace CurveEditor
 		 //グラフデータに異常はないか？
 		 // @return  true なら正常
 		 bool DateErrorCheck();
+
+		 //グラフデータの開放
+		 void Release();
 	 private:
 		 //方程式を求める時に使う
 		  double Ax;
@@ -91,10 +92,7 @@ namespace CurveEditor
 		 Vec2 GetPointAtTime(double t);
 
 		 //文字列から数字に変換しデータを保存
-		 void  StringToBezierPoint(std::vector<std::string>& val);
-
-		 //グラフデータの開放
-		 void Release();
+		 void StringToBezierPoint(std::vector<std::string>& val);
 
 	 };
 }

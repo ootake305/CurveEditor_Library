@@ -2,11 +2,31 @@
 #include "CurveEditor.h"
 #include <fstream>
 #include <cmath>
+#include <string>
 #include <Windows.h>
 //#include <iostream>
 //#include <sstream>
 namespace CurveEditor
 {
+#define EROORCODE_000 "CurveEditoreError[000][CSVのデータがおかしいよ！] \n"
+#define EROORCODE_001 "CurveEditoreError[001][ファイルを開けてないよ！] \n"
+#define EROORCODE_002 "CurveEditoreError[002][方程式の解をでません] \n"
+
+#ifdef _DEBUG 
+#ifdef WINAPI_FAMILY_PARTITION 
+#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)
+
+#define DEBUGLOG(code) OutputDebugStringA(code);
+
+#else
+#define DEBUGLOG(code)
+#endif
+#else
+#define DEBUGLOG(code)
+#endif
+#else // DEBUG
+#define DEBUGLOG(code)
+#endif
 
 	/* 小数点n以下で四捨五入する */
 	double round_n(double number, double n)
@@ -63,17 +83,13 @@ namespace CurveEditor
 			ifs.close();
 			if (!DateErrorCheck())
 			{
-#ifdef _DEBUG
-			OutputDebugStringA("CurveEditoreError[000][CSVのデータがおかしいよ！] \n");
-#endif // DEBUG
+				DEBUGLOG(EROORCODE_000)
 				return false;
 			}
 		}
 		else
 		{
-#ifdef _DEBUG
-			OutputDebugStringA("CurveEditoreError[001][ファイルを開けてないよ！] \n");
-#endif // DEBUG
+			DEBUGLOG(EROORCODE_001)
 		}
 
 		return isOpen;
@@ -81,6 +97,14 @@ namespace CurveEditor
 	// グラフのXからYを求める
 	double BezierPointList::EvaluateY(double x)
 	{
+		//データが問題ないか
+		if(!DateErrorCheck())
+		{
+			DEBUGLOG(EROORCODE_000)
+
+			return -100;
+		}
+
 		int num = 0;
 		int pontcnt = m_List.size();
 		//どこのベジェ曲線か検索
@@ -201,6 +225,8 @@ namespace CurveEditor
 			}
 			t2 = (t1 - t0) * 0.5f + t0;
 		}
+
+		DEBUGLOG(EROORCODE_002)
 
 		return GetPointAtTime(t2).y; // 失敗
 	}
