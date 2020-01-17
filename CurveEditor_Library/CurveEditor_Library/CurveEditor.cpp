@@ -10,7 +10,7 @@ namespace CurveEditor
 {
 #define EROORCODE_000 "CurveEditoreError[000][CSVのデータがおかしいよ！] \n"
 #define EROORCODE_001 "CurveEditoreError[001][ファイルを開けてないよ！] \n"
-#define EROORCODE_002 "CurveEditoreError[002][方程式の解をでません] \n"
+#define EROORCODE_002 "CurveEditoreError[002][方程式の解がでません] \n"
 
 #ifdef _DEBUG 
 #ifdef WINAPI_FAMILY_PARTITION 
@@ -27,11 +27,21 @@ namespace CurveEditor
 #else // DEBUG
 #define DEBUGLOG(code)
 #endif
+	//べき乗　繰り返し二乗法
+	long Pow(long a, long n)
+	{
+		long ret = 1;
+		for (; n>0; n >>= 1, a = a*a)
+		{
+			if (n % 2 == 1)ret = ret*a;
+		}
+		return ret;
+	}
 
 	/* 小数点n以下で四捨五入する */
-	double round_n(double number, double n)
+	double round_n(double number, long n)
 	{
-		double num = pow(10.0, n - 1);
+		double num = (double)(Pow(10, n - 1));
 		number = number *num; //四捨五入したい値を10の(n-1)乗倍する。
 		number = round(number); //小数点以下を四捨五入する。
 		number /= num; //10の(n-1)乗で割る。
@@ -95,7 +105,7 @@ namespace CurveEditor
 		return isOpen;
 	}
 	// グラフのXからYを求める
-	double BezierPointList::EvaluateY(double x)
+	double BezierPointList::EvaluateY(double x, bool isRound)
 	{
 		//データが問題ないか
 		if(!DateErrorCheck())
@@ -112,7 +122,13 @@ namespace CurveEditor
 
 		m_SelectPoint = m_List[num];
 
-		return CalcYfromX(x);
+		double d = CalcYfromX(x);
+		//誤差を丸める
+		if (isRound)
+		{
+			d = round_n(d, 4);
+		}
+		return d;
 	}
 	//グラフデータに異常はないか？　trueなら正常
 	bool BezierPointList::DateErrorCheck()

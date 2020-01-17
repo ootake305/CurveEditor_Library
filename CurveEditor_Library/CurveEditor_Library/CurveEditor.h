@@ -54,8 +54,8 @@ namespace CurveEditor
 
 		 // グラフのXからYを求める
 		 // @param x　時間0～1
-
-		 double EvaluateY(double x);
+		 // @param isRound　誤差を丸めるか
+		 double EvaluateY(double x, bool isRound = true);
 
 		 //グラフデータに異常はないか？
 		 // @return  true なら正常
