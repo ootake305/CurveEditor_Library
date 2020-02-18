@@ -49,7 +49,6 @@ namespace CurveEditor
 
 		 //CSVからグラフデータを読み込む
 		 // @param Actor　読み込むCSVのパス
-		 // @return  difference 誤差の許容値
 		 bool ReadBezierPointList(std::string CSVpath);
 
 		 // グラフのXからYを求める
@@ -72,15 +71,15 @@ namespace CurveEditor
 		  double Cx;
 		  double Cy;
 
-		  std::vector<BezierPoint> m_List;
-		  BezierPoint m_SelectPoint;
+		  std::vector<BezierPoint> m_List;//グラフデータを格納する場所
+		  BezierPoint m_SelectPoint;	  //どのベジェ曲線か
 	 private:
 		 BezierPointList(const BezierPointList & cpy);
 		 BezierPointList& operator=(const BezierPointList &ope);
 		 //どこの曲線か検索
 		 // @param x　時間0～1
 		 int SearchBezier(double x);
-
+		 //解を求めるための変数を用意する
 		 void SetConstants3();
 		 // xを与えるとtについての方程式を求めてyを返す
 		 // @param x　
@@ -90,7 +89,6 @@ namespace CurveEditor
 		 double sampleCurveDerivativeX(double t);
 		 // tからxとyを求める
 		 Vec2 GetPointAtTime(double t);
-
 		 //文字列から数字に変換しデータを保存
 		 void StringToBezierPoint(std::vector<std::string>& val);
 

@@ -39,7 +39,7 @@ namespace CurveEditor
 	}
 
 	/* 小数点n以下で四捨五入する */
-	double round_n(double number, long n)
+	double Round(double number, long n)
 	{
 		double num = (double)(Pow(10, n - 1));
 		number = number *num; //四捨五入したい値を10の(n-1)乗倍する。
@@ -82,6 +82,7 @@ namespace CurveEditor
 			//一行読み込みテスト
 		//	std::getline(ifs, value);
 		//	if (value != "/n") values.push_back(value);
+
 			//全データを読み込む
 			while (std::getline(ifs, value, ','))
 			{
@@ -126,7 +127,7 @@ namespace CurveEditor
 		//誤差を丸める
 		if (isRound)
 		{
-			d = round_n(d, 4);
+			d = Round(d, 4);
 		}
 		return d;
 	}
@@ -183,7 +184,6 @@ namespace CurveEditor
 		x = (x4-3*(x3+x2)-x1)*t^3 + 3*(x3-2*x2+x1)*t^2 + 3*(x2-x1)*t + x1
 		y = (y4-3*(y3+y2)-y1)*t^3 + 3*(y3-2*y2+y1)*t^2 + 3*(y2-y1)*t + y1
 
-		t以外の値を求める?
 		*/
 		Ax = b3.x - 3 * (b2.x - b1.x) - b0.x;
 		Bx = 3 * (b2.x - 2 * b1.x + b0.x);
@@ -193,6 +193,7 @@ namespace CurveEditor
 		By = 3 * (b2.y - 2 * b1.y + b0.y);
 		Cy = 3 * (b1.y - b0.y);
 	}
+	//XからYを求める
 	double BezierPointList::CalcYfromX(double x)
 	{
 		double epsilon = 0.001f; // 閾値
@@ -314,6 +315,7 @@ namespace CurveEditor
 			m_List.push_back(bp);
 		}
 	}
+	//データの開放
 	void BezierPointList::Release()
 	{
 		std::vector<BezierPoint> List;
